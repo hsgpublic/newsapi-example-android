@@ -2,16 +2,6 @@ package hsgpublic.example.newsapi.data.remote.endpoint
 
 import hsgpublic.example.newsapi.config.ServerConfig
 
-enum class EndpointMethod {
-    GET
-}
-
-enum class EndpointContentType(
-    val raw: String
-) {
-    JSON("application/json")
-}
-
 interface Endpoint {
     val path: String
     val baseQuery: Map<String, String>
