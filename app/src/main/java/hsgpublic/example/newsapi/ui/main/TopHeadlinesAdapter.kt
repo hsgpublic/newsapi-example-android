@@ -4,8 +4,12 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.request.CachePolicy
+import coil.transform.RoundedCornersTransformation
 import hsgpublic.example.newsapi.data.model.HeadlineModel
 import hsgpublic.example.newsapi.databinding.HeadlineItemBinding
+import kotlinx.coroutines.Dispatchers
 
 class TopHeadlinesAdapter(
     private var headlines: List<HeadlineModel>,
@@ -25,8 +29,20 @@ class TopHeadlinesAdapter(
         position: Int
     ) {
         val headline = headlines[position]
-        val imageUri = Uri.parse(headline.urlToImage.orEmpty())
-        holder.imageView.setImageURI(imageUri)
+        val imageUrlString = headline.urlToImage.orEmpty()
+        val imageUri = Uri.parse(imageUrlString)
+        val placeholderId = android.R.drawable.ic_menu_gallery
+        holder.imageView.load(imageUri) {
+            dispatcher(Dispatchers.IO)
+            memoryCacheKey(imageUrlString)
+            memoryCachePolicy(CachePolicy.ENABLED)
+            diskCacheKey(imageUrlString)
+            diskCachePolicy(CachePolicy.ENABLED)
+            transformations(RoundedCornersTransformation(15F))
+            placeholder(placeholderId)
+            error(placeholderId)
+            fallback(placeholderId)
+        }
         holder.titleTextView.text = headline.title.orEmpty()
         holder.publishInfoTextView.text = "${headline.publishedAt.orEmpty()} by ${headline.author.orEmpty()}"
         holder.binding.root.setOnClickListener {

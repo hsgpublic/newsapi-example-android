@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NewsAPI</string>
+    <string name="headline_img_desc">Headline image</string>
 </resources>
