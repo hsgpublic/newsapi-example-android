@@ -1,5 +1,6 @@
 package hsgpublic.example.newsapi.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import hsgpublic.example.newsapi.R
 import hsgpublic.example.newsapi.databinding.ActivityMainBinding
+import hsgpublic.example.newsapi.ui.article.ArticleActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
@@ -44,9 +46,10 @@ class MainActivity : AppCompatActivity() {
 
             topHeadlinesAdapter = TopHeadlinesAdapter(
                 listOf()
-            ) {
-                // TODO: Move to article web view.
+            ) { _, headline ->
+                moveToArticle(headline.title, headline.url)
             }
+
             adapter = topHeadlinesAdapter
         }
     }
@@ -61,6 +64,17 @@ class MainActivity : AppCompatActivity() {
                         topHeadlinesAdapter.setupData(headlines)
                     }
             }
+        }
+    }
+
+    private fun moveToArticle(title: String, urlString: String) {
+        val intent = Intent(this, ArticleActivity::class.java).apply {
+            putExtra("urlString", urlString)
+        }
+        try {
+            startActivity(intent)
+        } catch(e: Exception) {
+            e.printStackTrace()
         }
     }
 }

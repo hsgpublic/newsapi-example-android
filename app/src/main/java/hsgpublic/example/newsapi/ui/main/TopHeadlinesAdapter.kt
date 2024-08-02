@@ -9,7 +9,7 @@ import hsgpublic.example.newsapi.databinding.HeadlineItemBinding
 
 class TopHeadlinesAdapter(
     private var headlines: List<HeadlineModel>,
-    private val onItemClick: (position: Int) -> Unit
+    private val onItemClick: (position: Int, headline: HeadlineModel) -> Unit
 ): RecyclerView.Adapter<TopHeadlinesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,7 +30,7 @@ class TopHeadlinesAdapter(
         holder.titleTextView.text = headline.title.orEmpty()
         holder.publishInfoTextView.text = "${headline.publishedAt.orEmpty()} by ${headline.author.orEmpty()}"
         holder.binding.root.setOnClickListener {
-            onItemClick(position)
+            onItemClick(position, headline)
         }
     }
 
