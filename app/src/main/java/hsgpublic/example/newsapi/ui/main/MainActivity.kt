@@ -1,6 +1,7 @@
 package hsgpublic.example.newsapi.ui.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel = MainViewModel()
     private lateinit var binding: ActivityMainBinding
     private lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
+    private lateinit var gridLayoutManager: GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,18 +41,24 @@ class MainActivity : AppCompatActivity() {
         refresh()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        gridLayoutManager.spanCount = resources.getInteger(R.integer.grid_span_count)
+    }
+
     private fun setupView() {
+        gridLayoutManager = GridLayoutManager(
+            this@MainActivity,
+            resources.getInteger(R.integer.grid_span_count)
+        )
+        topHeadlinesAdapter = TopHeadlinesAdapter(
+            listOf()
+        ) { _, headline ->
+            moveToArticle(headline.title, headline.url)
+        }
+
         binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(
-                this@MainActivity, 1
-            )
-
-            topHeadlinesAdapter = TopHeadlinesAdapter(
-                listOf()
-            ) { _, headline ->
-                moveToArticle(headline.title, headline.url)
-            }
-
+            layoutManager = gridLayoutManager
             adapter = topHeadlinesAdapter
         }
     }
