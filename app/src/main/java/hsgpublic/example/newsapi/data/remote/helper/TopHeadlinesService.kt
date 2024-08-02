@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.QueryMap
 
-interface RetrofitService {
+interface TopHeadlinesService {
     @GET("/v2/top-headlines")
     suspend fun getTopHeadlines(
         @HeaderMap headerMap: Map<String, String>,
