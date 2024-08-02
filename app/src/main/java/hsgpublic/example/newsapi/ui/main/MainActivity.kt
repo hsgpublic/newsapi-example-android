@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         topHeadlinesAdapter = TopHeadlinesAdapter(
             listOf()
         ) { _, headline ->
-            moveToArticle(headline.title, headline.url)
+            moveToArticle(headline.title, headline.articleURL)
         }
 
         binding.recyclerView.apply {

@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.RoundedCornersTransformation
-import hsgpublic.example.newsapi.data.model.HeadlineModel
 import hsgpublic.example.newsapi.databinding.HeadlineItemBinding
 import kotlinx.coroutines.Dispatchers
 
 class TopHeadlinesAdapter(
-    private var headlines: List<HeadlineModel>,
-    private val onItemClick: (position: Int, headline: HeadlineModel) -> Unit
+    private var headlines: List<HeadlineItemData>,
+    private val onItemClick: (position: Int, headline: HeadlineItemData) -> Unit
 ): RecyclerView.Adapter<TopHeadlinesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -44,7 +43,8 @@ class TopHeadlinesAdapter(
             fallback(placeholderId)
         }
         holder.titleTextView.text = headline.title.orEmpty()
-        holder.publishInfoTextView.text = "${headline.publishedAt.orEmpty()} by ${headline.author.orEmpty()}"
+        holder.publishInfoTextView.text =
+            "${headline.formattedPublishedAt.orEmpty()} by ${headline.author.orEmpty()}"
         holder.binding.root.setOnClickListener {
             onItemClick(position, headline)
         }
@@ -62,7 +62,7 @@ class TopHeadlinesAdapter(
         val publishInfoTextView = binding.publishInfoTextView
     }
 
-    fun setupData(headlines: List<HeadlineModel>) {
+    fun setupData(headlines: List<HeadlineItemData>) {
         this.headlines = headlines.orEmpty()
         notifyDataSetChanged()
     }
