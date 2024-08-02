@@ -5,14 +5,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import hsgpublic.example.newsapi.R
-import hsgpublic.example.newsapi.data.repository.TopHeadlinesRepository
 import hsgpublic.example.newsapi.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    private val repository = TopHeadlinesRepository()
+    private val viewModel: MainViewModel = MainViewModel()
     private lateinit var binding: ActivityMainBinding
+    private lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +32,35 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         setupView()
+        bindViewModel()
+        viewModel.fetchTopHeadlines("kr")
     }
 
     private fun setupView() {
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 1)
-        binding.recyclerView.adapter = TopHeadlinesAdapter(
-            listOf()
-        ) {
-            // TODO: Move to article web view.
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(
+                this@MainActivity, 1
+            )
+
+            topHeadlinesAdapter = TopHeadlinesAdapter(
+                listOf()
+            ) {
+                // TODO: Move to article web view.
+            }
+            adapter = topHeadlinesAdapter
+        }
+    }
+
+    private fun bindViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.headlines
+                    .distinctUntilChanged()
+                    .flowOn(Dispatchers.Main)
+                    .collect { headlines ->
+                        topHeadlinesAdapter.setupData(headlines)
+                    }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ import hsgpublic.example.newsapi.data.model.HeadlineModel
 import hsgpublic.example.newsapi.databinding.HeadlineItemBinding
 
 class TopHeadlinesAdapter(
-    private val headlines: List<HeadlineModel>,
+    private var headlines: List<HeadlineModel>,
     private val onItemClick: (position: Int) -> Unit
 ): RecyclerView.Adapter<TopHeadlinesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
@@ -25,10 +25,10 @@ class TopHeadlinesAdapter(
         position: Int
     ) {
         val headline = headlines[position]
-        val imageUri = Uri.parse(headline.urlToImage)
+        val imageUri = Uri.parse(headline.urlToImage.orEmpty())
         holder.imageView.setImageURI(imageUri)
-        holder.titleTextView.text = headline.title
-        holder.publishInfoTextView.text = "${headline.publishedAt} by ${headline.author}"
+        holder.titleTextView.text = headline.title.orEmpty()
+        holder.publishInfoTextView.text = "${headline.publishedAt.orEmpty()} by ${headline.author.orEmpty()}"
         holder.binding.root.setOnClickListener {
             onItemClick(position)
         }
@@ -44,5 +44,10 @@ class TopHeadlinesAdapter(
         val imageView = binding.imageView
         val titleTextView = binding.titleTextView
         val publishInfoTextView = binding.publishInfoTextView
+    }
+
+    fun setupData(headlines: List<HeadlineModel>) {
+        this.headlines = headlines.orEmpty()
+        notifyDataSetChanged()
     }
 }
