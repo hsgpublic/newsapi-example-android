@@ -34,8 +34,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         setupView()
+        bindView()
         bindViewModel()
-        viewModel.fetchTopHeadlines("kr")
+        refresh()
     }
 
     private fun setupView() {
@@ -54,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindView() {
+        binding.refreshLayout.setOnRefreshListener {
+            refresh()
+        }
+    }
+
     private fun bindViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -65,6 +72,11 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    private fun refresh() {
+        binding.refreshLayout.isRefreshing = false
+        viewModel.fetchTopHeadlines("kr")
     }
 
     private fun moveToArticle(title: String, urlString: String) {
