@@ -9,7 +9,10 @@ fun String.currentLocaledDateString(fromFormat: String): String {
     try {
         val fromFormatter = DateTimeFormatter.ofPattern(fromFormat)
         val dateTime = LocalDateTime.parse(this, fromFormatter)
-        val toFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val toFormatter = DateTimeFormatter.ofLocalizedDateTime(
+            FormatStyle.MEDIUM,
+            FormatStyle.SHORT
+        )
         val toZone = TimeZone.getDefault().toZoneId()
         val str = dateTime.atZone(toZone).format(toFormatter)
         return str
