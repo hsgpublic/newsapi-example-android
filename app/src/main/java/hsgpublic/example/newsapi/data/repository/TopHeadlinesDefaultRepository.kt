@@ -57,7 +57,14 @@ class TopHeadlinesDefaultRepository(
 
     private fun saveRemoteHeadlines(topHeadlines: TopHeadlinesResponseModel) {
         runBlocking {
-            val entities = topHeadlines.articles.map { it.asHeadlineEntity() }
+            val entities = topHeadlines.articles.map { article ->
+                val entity = article.asHeadlineEntity()
+                entity.articleVisited = _headlines.firstOrNull { headline ->
+                    headline.publishedAt == entity.publishedAt
+                            && headline.author == entity.author
+                }?.articleVisited ?: false
+                entity
+            }
             localDataSource.upsertHeadlines(entities)
                 .collect {
                     fetchLocalHeadlines()
@@ -74,6 +81,9 @@ class TopHeadlinesDefaultRepository(
             _headlines[index].articleVisited = true
             val entity = _headlines[index].asHeadlineEntity()
             localDataSource.upsertHeadlines(listOf(entity))
+                .collect {
+
+                }
         }
     }
 }
