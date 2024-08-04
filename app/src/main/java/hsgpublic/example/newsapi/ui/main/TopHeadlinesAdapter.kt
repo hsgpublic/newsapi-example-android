@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.RoundedCornersTransformation
+import hsgpublic.example.newsapi.R
 import hsgpublic.example.newsapi.databinding.HeadlineItemBinding
 import kotlinx.coroutines.Dispatchers
 
@@ -46,7 +47,7 @@ class TopHeadlinesAdapter(
         holder.titleTextView.apply {
             text = headline.title.orEmpty()
             setTextColor(if(headline.articleVisited) {
-                resources.getColor(android.R.color.holo_red_dark)
+                resources.getColor(R.color.red)
             } else {
                 resources.getColor(android.R.color.tab_indicator_text)
             })
