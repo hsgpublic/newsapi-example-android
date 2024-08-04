@@ -12,24 +12,24 @@ data class HeadlineEntity(
 ) {
     fun asHeadlineModel(): HeadlineModel {
         return HeadlineModel(
-            title = title,
-            publishedAt = publishedAt,
-            author = author,
-            urlToImage = urlToImage,
-            url = url,
-            articleVisited = articleVisited
+            title = title.orEmpty(),
+            publishedAt = publishedAt.orEmpty(),
+            author = author.orEmpty(),
+            urlToImage = urlToImage.orEmpty(),
+            url = url.orEmpty(),
+            articleVisited = articleVisited ?: false
         )
     }
 
     fun asRoomEntity(): HeadlineRoomEntity {
         return HeadlineRoomEntity(
-            compositeKey = HeadlineRoomEntity.makeCompositeKey(publishedAt, author),
-            title = title,
-            publishedAt = publishedAt,
-            author = author,
-            urlToImage = urlToImage,
-            url = url,
-            articleVisited = articleVisited
+            compositeKey = HeadlineRoomEntity.makeCompositeKey(publishedAt, author).orEmpty(),
+            title = title.orEmpty(),
+            publishedAt = publishedAt.orEmpty(),
+            author = author.orEmpty(),
+            urlToImage = urlToImage.orEmpty(),
+            url = url.orEmpty(),
+            articleVisited = articleVisited ?: false
         )
     }
 }

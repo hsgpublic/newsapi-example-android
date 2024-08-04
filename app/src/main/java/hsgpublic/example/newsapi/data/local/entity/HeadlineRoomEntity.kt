@@ -22,12 +22,12 @@ data class HeadlineRoomEntity(
 
     fun asHeadlineEntity(): HeadlineEntity {
         return HeadlineEntity(
-            title = title,
-            publishedAt = publishedAt,
-            author = author,
-            urlToImage = urlToImage,
-            url = url,
-            articleVisited = articleVisited
+            title = title.orEmpty(),
+            publishedAt = publishedAt.orEmpty(),
+            author = author.orEmpty(),
+            urlToImage = urlToImage.orEmpty(),
+            url = url.orEmpty(),
+            articleVisited = articleVisited ?: false
         )
     }
 }

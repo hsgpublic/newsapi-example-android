@@ -1,7 +1,6 @@
 package hsgpublic.example.newsapi.data.remote.model
 
 import hsgpublic.example.newsapi.data.local.entity.HeadlineEntity
-import hsgpublic.example.newsapi.data.model.HeadlineModel
 
 data class ArticleResponseModel(
     val source: SourceResponseModel?,
@@ -15,11 +14,11 @@ data class ArticleResponseModel(
 ) {
     fun asHeadlineEntity(): HeadlineEntity {
         return HeadlineEntity(
-            title = title,
-            publishedAt = publishedAt,
-            author = author,
-            urlToImage = urlToImage,
-            url = url
+            title = title.orEmpty(),
+            publishedAt = publishedAt.orEmpty(),
+            author = author.orEmpty(),
+            urlToImage = urlToImage.orEmpty(),
+            url = url.orEmpty()
         )
     }
 }

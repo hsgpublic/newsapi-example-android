@@ -1,8 +1,9 @@
 [versions]
 agp = "8.5.1"
-kotlin = "1.9.0"
+kotlin = "2.0.0"
+ksp = "2.0.0-1.0.24"
 
-activity = "1.9.0"
+activity = "1.9.1"
 appcompat = "1.7.0"
 coil = "2.7.0"
 constraintlayout = "2.1.4"
@@ -10,7 +11,7 @@ coreKtx = "1.13.1"
 espressoCore = "3.6.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
-material = "1.10.0"
+material = "1.12.0"
 retrofit = "2.11.0"
 room = "2.6.1"
 swiperefreshlayout = "1.1.0"
@@ -31,8 +32,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
