@@ -1,6 +1,6 @@
-package hsgpublic.example.newsapi.data.model
+package hsgpublic.example.newsapi.data.local.entity
 
-data class HeadlineModel(
+data class HeadlineEntity(
     val title: String,
     val publishedAt: String,
     val author: String,
