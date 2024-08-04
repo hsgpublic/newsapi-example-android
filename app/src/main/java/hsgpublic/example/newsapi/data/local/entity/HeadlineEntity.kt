@@ -7,4 +7,16 @@ data class HeadlineEntity(
     val urlToImage: String,
     val url: String,
     var articleVisited: Boolean = false
-)
+) {
+    fun asRoomEntity(): HeadlineRoomEntity {
+        return HeadlineRoomEntity(
+            compositeKey = HeadlineRoomEntity.makeCompositeKey(publishedAt, author),
+            title = title,
+            publishedAt = publishedAt,
+            author = author,
+            urlToImage = urlToImage,
+            url = url,
+            articleVisited = articleVisited
+        )
+    }
+}

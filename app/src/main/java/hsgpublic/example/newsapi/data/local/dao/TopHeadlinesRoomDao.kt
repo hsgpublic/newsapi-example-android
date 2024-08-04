@@ -11,9 +11,12 @@ interface TopHeadlinesRoomDao {
     @Query("SELECT * FROM HeadlineRoomEntity")
     suspend fun getAll(): List<HeadlineRoomEntity>
 
+    @Query("SELECT * FROM HeadlineRoomEntity WHERE compositeKey IN (:compositeKeys)")
+    suspend fun get(compositeKeys: List<String>): List<HeadlineRoomEntity>
+
     @Upsert
     suspend fun upsert(headlines: List<HeadlineRoomEntity>)
 
-    @Delete
-    suspend fun delete(headlines: List<HeadlineRoomEntity>)
+    @Query("DELETE FROM HeadlineRoomEntity WHERE compositeKey IN (:compositeKeys)")
+    suspend fun delete(compositeKeys: List<String>)
 }

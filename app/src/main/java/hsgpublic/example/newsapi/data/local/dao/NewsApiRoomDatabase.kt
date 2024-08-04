@@ -6,7 +6,7 @@ import hsgpublic.example.newsapi.config.DatabaseConfig
 import hsgpublic.example.newsapi.data.local.entity.HeadlineEntity
 
 @Database(
-    version = DatabaseConfig.DatabaseVersion,
+    version = DatabaseConfig.DATABASE_VERSION,
     entities = [HeadlineEntity::class],
     autoMigrations = [
 

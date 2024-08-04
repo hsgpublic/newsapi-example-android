@@ -19,4 +19,15 @@ data class HeadlineRoomEntity(
             return "$publishedAt-$author"
         }
     }
+
+    fun asHeadlineEntity(): HeadlineEntity {
+        return HeadlineEntity(
+            title = title,
+            publishedAt = publishedAt,
+            author = author,
+            urlToImage = urlToImage,
+            url = url,
+            articleVisited = articleVisited
+        )
+    }
 }
