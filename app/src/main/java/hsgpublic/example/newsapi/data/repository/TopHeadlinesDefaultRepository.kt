@@ -7,11 +7,14 @@ import hsgpublic.example.newsapi.data.model.HeadlineModel
 import hsgpublic.example.newsapi.data.remote.TopHeadlinesDefaultRemoteDataSource
 import hsgpublic.example.newsapi.data.remote.TopHeadlinesRemoteDataSource
 import hsgpublic.example.newsapi.data.remote.model.TopHeadlinesResponseModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class TopHeadlinesDefaultRepository(
@@ -36,7 +39,7 @@ class TopHeadlinesDefaultRepository(
     }
 
     private fun fetchLocalHeadlines() {
-        runBlocking {
+        CoroutineScope(Dispatchers.IO).launch {
             localDataSource.readHeadlines()
                 .catch {
                     it.printStackTrace()
@@ -51,7 +54,7 @@ class TopHeadlinesDefaultRepository(
     }
 
     private fun fetchRemoteHeadlines(country: String) {
-        runBlocking {
+        CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.getTopHeadlines(country)
                 .catch {
                     it.printStackTrace()
@@ -63,7 +66,7 @@ class TopHeadlinesDefaultRepository(
     }
 
     private fun saveRemoteHeadlines(topHeadlines: TopHeadlinesResponseModel) {
-        runBlocking {
+        CoroutineScope(Dispatchers.IO).launch {
             val entities = topHeadlines.articles.map { article ->
                 val entity = article.asHeadlineEntity()
                 entity.articleVisited = _headlines.firstOrNull { headline ->
@@ -83,9 +86,9 @@ class TopHeadlinesDefaultRepository(
     }
 
     override fun markVisited(index: Int) {
-        runBlocking {
+        CoroutineScope(Dispatchers.IO).launch {
             if(_headlines.size <= index) {
-                return@runBlocking
+                return@launch
             }
 
             _headlines[index].articleVisited = true

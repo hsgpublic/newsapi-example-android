@@ -18,6 +18,7 @@ class MainViewModel(
         TopHeadlinesDefaultRepository(application.applicationContext)
 ): ViewModel() {
     val headlines: Flow<List<HeadlineItemData>> = repository.headlines
+        .flowOn(Dispatchers.Main)
         .map { headlines ->
             headlines.map { headline ->
                 HeadlineItemData(
@@ -33,12 +34,9 @@ class MainViewModel(
                 )
             }
         }
-        .flowOn(Dispatchers.Main)
 
     fun fetchTopHeadlines(country: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchTopHeadlines(country)
-        }
+        repository.fetchTopHeadlines(country)
     }
 
     fun markVisited(index: Int) {
