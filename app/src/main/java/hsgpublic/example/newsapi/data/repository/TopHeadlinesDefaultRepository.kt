@@ -9,6 +9,7 @@ import hsgpublic.example.newsapi.data.remote.TopHeadlinesRemoteDataSource
 import hsgpublic.example.newsapi.data.remote.model.TopHeadlinesResponseModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -37,6 +38,9 @@ class TopHeadlinesDefaultRepository(
     private fun fetchLocalHeadlines() {
         runBlocking {
             localDataSource.readHeadlines()
+                .catch {
+                    it.printStackTrace()
+                }
                 .map { entities ->
                     entities.map { it.asHeadlineModel() }
                 }
@@ -49,6 +53,9 @@ class TopHeadlinesDefaultRepository(
     private fun fetchRemoteHeadlines(country: String) {
         runBlocking {
             remoteDataSource.getTopHeadlines(country)
+                .catch {
+                    it.printStackTrace()
+                }
                 .collect {
                     saveRemoteHeadlines(it)
                 }
@@ -66,6 +73,9 @@ class TopHeadlinesDefaultRepository(
                 entity
             }
             localDataSource.upsertHeadlines(entities)
+                .catch {
+                    it.printStackTrace()
+                }
                 .collect {
                     fetchLocalHeadlines()
                 }
@@ -81,6 +91,9 @@ class TopHeadlinesDefaultRepository(
             _headlines[index].articleVisited = true
             val entity = _headlines[index].asHeadlineEntity()
             localDataSource.upsertHeadlines(listOf(entity))
+                .catch {
+                    it.printStackTrace()
+                }
                 .collect {
 
                 }
