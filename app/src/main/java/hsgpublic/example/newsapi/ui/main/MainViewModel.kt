@@ -8,6 +8,7 @@ import hsgpublic.example.newsapi.data.repository.TopHeadlinesRepository
 import hsgpublic.example.newsapi.util.currentLocaledDateString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class MainViewModel(
         TopHeadlinesDefaultRepository(application.applicationContext)
 ): ViewModel() {
     val headlines: Flow<List<HeadlineItemData>> = repository.headlines
+        .distinctUntilChanged()
         .map { headlines ->
             headlines.map { headline ->
                 HeadlineItemData(
