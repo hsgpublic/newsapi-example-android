@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.headlines
                     .distinctUntilChanged()
+                    .flowOn(Dispatchers.Main)
                     .collect { headlines ->
                         topHeadlinesAdapter.setupData(headlines)
                     }

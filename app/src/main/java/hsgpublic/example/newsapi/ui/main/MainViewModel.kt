@@ -18,7 +18,6 @@ class MainViewModel(
         TopHeadlinesDefaultRepository(application.applicationContext)
 ): ViewModel() {
     val headlines: Flow<List<HeadlineItemData>> = repository.headlines
-        .flowOn(Dispatchers.Main)
         .map { headlines ->
             headlines.map { headline ->
                 HeadlineItemData(
