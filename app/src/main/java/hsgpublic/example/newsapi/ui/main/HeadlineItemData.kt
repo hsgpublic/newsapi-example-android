@@ -6,5 +6,6 @@ data class HeadlineItemData(
     val formattedPublishedAt: String,
     val author: String,
     val urlToImage: String,
-    val articleURL: String
+    val articleURL: String,
+    var articleVisited: Boolean = false
 )

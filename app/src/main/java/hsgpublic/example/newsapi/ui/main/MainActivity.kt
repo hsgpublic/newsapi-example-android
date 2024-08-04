@@ -54,8 +54,9 @@ class MainActivity : AppCompatActivity() {
         )
         topHeadlinesAdapter = TopHeadlinesAdapter(
             listOf()
-        ) { _, headline ->
-            moveToArticle(headline.title, headline.articleURL)
+        ) { position, headline ->
+            moveToArticle(headline.articleURL)
+            viewModel.markVisited(position)
         }
 
         binding.recyclerView.apply {
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.fetchTopHeadlines("kr")
     }
 
-    private fun moveToArticle(title: String, urlString: String) {
+    private fun moveToArticle(urlString: String) {
         val intent = Intent(this, ArticleActivity::class.java).apply {
             putExtra("urlString", urlString)
         }

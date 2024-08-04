@@ -28,6 +28,7 @@ class TopHeadlinesAdapter(
         position: Int
     ) {
         val headline = headlines[position]
+        val resources = holder.itemView.resources
         val imageUrlString = headline.urlToImage.orEmpty()
         val imageUri = Uri.parse(imageUrlString)
         val placeholderId = android.R.drawable.ic_menu_gallery
@@ -42,7 +43,15 @@ class TopHeadlinesAdapter(
             error(placeholderId)
             fallback(placeholderId)
         }
-        holder.titleTextView.text = headline.title.orEmpty()
+        holder.titleTextView.apply {
+            text = headline.title.orEmpty()
+            setTextColor(if(headline.articleVisited) {
+                resources.getColor(android.R.color.holo_red_dark)
+            } else {
+                resources.getColor(android.R.color.tab_indicator_text)
+            })
+
+        }
         holder.publishInfoTextView.text =
             "${headline.formattedPublishedAt.orEmpty()} by ${headline.author.orEmpty()}"
         holder.binding.root.setOnClickListener {

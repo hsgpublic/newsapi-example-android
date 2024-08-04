@@ -28,7 +28,8 @@ class MainViewModel(
                     ),
                     author = headline.author,
                     urlToImage = headline.urlToImage,
-                    articleURL = headline.url
+                    articleURL = headline.url,
+                    articleVisited = headline.articleVisited
                 )
             }
         }
@@ -38,5 +39,9 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             repository.fetchTopHeadlines(country)
         }
+    }
+
+    fun markVisited(index: Int) {
+        repository.markVisited(index)
     }
 }
