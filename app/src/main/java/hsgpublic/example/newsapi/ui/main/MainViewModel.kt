@@ -1,5 +1,6 @@
 package hsgpublic.example.newsapi.ui.main
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hsgpublic.example.newsapi.data.repository.TopHeadlinesDefaultRepository
@@ -12,7 +13,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val repository: TopHeadlinesRepository = TopHeadlinesDefaultRepository()
+    application: Application,
+    private val repository: TopHeadlinesRepository =
+        TopHeadlinesDefaultRepository(application.applicationContext)
 ): ViewModel() {
     val headlines: Flow<List<HeadlineItemData>> = repository.headlines
         .map { headlines ->

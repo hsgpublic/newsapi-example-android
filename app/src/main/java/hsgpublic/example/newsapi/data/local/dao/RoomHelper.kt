@@ -10,7 +10,7 @@ object RoomHelper {
     fun getDatabase(context: Context): NewsApiRoomDatabase {
         if(database == null) {
             database = Room.databaseBuilder(
-                context.applicationContext,
+                context,
                 NewsApiRoomDatabase::class.java,
                 DatabaseConfig.DATABASE_NAME
             ).build()

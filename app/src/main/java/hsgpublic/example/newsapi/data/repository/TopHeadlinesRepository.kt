@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface TopHeadlinesRepository {
     val headlines: Flow<List<HeadlineModel>>
     fun fetchTopHeadlines(country: String)
+    fun markVisited(index: Int)
 }
