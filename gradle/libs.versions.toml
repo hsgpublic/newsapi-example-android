@@ -12,6 +12,7 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 material = "1.10.0"
 retrofit = "2.11.0"
+room = "2.6.1"
 swiperefreshlayout = "1.1.0"
 
 [libraries]
@@ -29,6 +30,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
